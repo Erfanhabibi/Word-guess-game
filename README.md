@@ -19,7 +19,6 @@ The game fetches words from [this wordlist](https://www.mit.edu/~ecprice/wordlis
 
 This code requires the `requests` library to fetch words from the internet. If you don't have it installed, you can install it using pip:
 
-```bash
 pip install requests
 
 # Wordle Game v1.2
