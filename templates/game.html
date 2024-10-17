@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wordle</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #121212;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .word-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .letter {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #fff;
+        text-align: center;
+        line-height: 50px;
+        font-size: 2rem;
+        margin: 0.5rem;
+        border-radius: 5px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .correct {
+        background-color: #4caf50;
+        color: #fff;
+      }
+
+      .incorrect {
+        background-color: #f44336;
+        color: #fff;
+      }
+
+      .guesses {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .attempts {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      form {
+        display: flex;
+        align-items: center;
+      }
+
+      input[type="text"] {
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 5px;
+        margin-right: 1rem;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      button[type="submit"],
+      button[type="reset"] {
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        transition: background-color 0.3s ease;
+      }
+
+      button[type="submit"]:hover,
+      button[type="reset"]:hover {
+        background-color: #0d8bf2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wordle</h1>
+    <div class="word-container">
+      {{ word_html|safe }}
+    </div>
+    <p class="guesses">Guesses: {{ guesses|join(' ') }}</p>
+    <p class="attempts">Attempts left: {{ attempts }}</p>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('handle_guess') }}" method="post">
+      <input type="text" name="guess" maxlength="1" required>
+      <button type="submit">Guess</button>
+      
+    </form>
+    <form id="resetForm" action="{{ url_for('reset_game') }}" method="post" style="margin-top: 20px;">
+      <button type="submit">Reset</button>
+    </form>
+  </body>
+  <script src="game.js"></script>
+</html>
